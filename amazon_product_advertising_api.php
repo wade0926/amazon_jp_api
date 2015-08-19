@@ -10,23 +10,24 @@ $page = $_GET['page'];
 if($act != '')
 {
 	$arr_api['act'] = $act;		
-		
-	if($arr_api['act'] == 'item_search')
-	{
-		$arr_api['search_index'] = $search_index;
-		$arr_api['page'] = $page;
-		//$arr_api['title'] = '学園';
-		//$arr_api['minimum_price'] = '4000';
-		//$arr_api['maximum_price'] = '5000';
-		$arr_api['sort'] = 'price';
-		$item = amazon_item_search($arr_api);
-	}
 	
-	if($arr_api['act'] == 'item_lookup')
+	switch($arr_api['act'])
 	{
-		$arr_api['asin'] = $asin;		
-		$item = amazon_item_lookup($arr_api);
-	}	
+		case 'item_search':
+			$arr_api['search_index'] = $search_index;
+			$arr_api['page'] = $page;
+			//$arr_api['title'] = '学園';
+			//$arr_api['minimum_price'] = '4000';
+			//$arr_api['maximum_price'] = '5000';
+			$arr_api['sort'] = 'price';
+			$item = amazon_item_search($arr_api);
+		break;
+		
+		case 'item_lookup':
+			$arr_api['asin'] = $asin;		
+			$item = amazon_item_lookup($arr_api);
+		break;		
+	}		
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

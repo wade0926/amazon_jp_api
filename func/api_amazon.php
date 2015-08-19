@@ -32,9 +32,9 @@ function amazon_item_lookup($arr)
 }
 
 function amazon_product_api($arr)
-{	
+{
 	//========== 設定參數 op ==========
-	//AWS Access Key ID
+	//AWS Access Key ID		
 	$access_key_id = aws_secret_key_id;
 	
 	//AWS Secret Access Key
@@ -89,7 +89,7 @@ function amazon_product_api($arr)
 		break;
 	}	
 	//========== 設定參數 ed ==========
-			
+		
 	//========== 建立簽名(signature) op ==========	
 	//對參數陣列排序
 	ksort($parameters);
@@ -107,14 +107,14 @@ function amazon_product_api($arr)
 	$signature = base64_encode(hash_hmac('sha256',$string_to_sign,$secret_access_key,TRUE));
 	//========== 建立簽名(signature) ed ==========
 		
-	$res_url = 'http://webservices.amazon.co.jp/onca/xml?'.$canonical_string.'&Signature='.str_replace('%7E','~',rawurlencode($signature));
+	$res_url = 'http://webservices.amazon.co.jp/onca/xml?'.$canonical_string.'&Signature='.str_replace('%7E','~',rawurlencode($signature));	
 	$amazon_xml = simplexml_load_string(@file_get_contents($res_url));
-	
+		
 	//利用json功能先把物件轉成陣列
 	foreach($amazon_xml as $value) 
 	{			
 		$res_api[] = json_decode(json_encode($value),true);		
-	}
+	}	
 		
 	return $res_api;
 }
