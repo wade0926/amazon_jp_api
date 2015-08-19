@@ -16,7 +16,10 @@ function amazon_item_search($arr)
 		
 		case 'adult_anime_DVD':
 			$arr['search_index'] = 'DVD';
-			$arr['browse_node'] = '2191254051';					
+			//test
+			$arr['browse_node'] = '637392,289705011,927712';
+			
+			//$arr['browse_node'] = '2191254051';					
 		break;				
 	}	
 		
