@@ -6,6 +6,7 @@ $act = $_GET['act'];
 $search_index = $_GET['search_index'];
 $asin = $_GET['asin'];
 $page = $_GET['page'];
+$browse_node_id = $_GET['browse_node_id'];
 
 if($act != '')
 {
@@ -26,6 +27,11 @@ if($act != '')
 		case 'item_lookup':
 			$arr_api['asin'] = $asin;		
 			$item = amazon_item_lookup($arr_api);
+		break;
+		
+		//遍歷節點
+		case 'browse_node_lookup':
+			$item = amazon_browse_node_lookup($browse_node_id);
 		break;		
 	}		
 }
@@ -216,6 +222,12 @@ if($act != '')
         <br />
         5. 商品庫存：<?php echo $item[1]['Item']['Offers']['Offer']['OfferListing']['Availability'];?>        
 		<?php
+	}
+	elseif($act == 'browse_node_lookup')
+	{
+		?>
+        <pre><?php print_r($item[1]['BrowseNode']);?></pre>
+        <?php
 	}
 }
 ?>

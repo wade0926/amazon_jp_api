@@ -31,6 +31,16 @@ function amazon_item_lookup($arr)
 	return amazon_product_api($arr);
 }
 
+//遍歷節點
+function amazon_browse_node_lookup($browse_node_id)
+{
+	$arr['operation'] = 'BrowseNodeLookup';		
+	$arr['browse_node_id'] = $browse_node_id;	
+	
+	return amazon_product_api($arr);
+}
+
+//使用amazon api
 function amazon_product_api($arr)
 {
 	//========== 設定參數 op ==========
@@ -86,6 +96,12 @@ function amazon_product_api($arr)
 		case 'ItemLookup':			
 			$parameters['ItemId'] = $arr['asin'];
 			$parameters['ResponseGroup'] = 'Small,Images,OfferFull,ItemAttributes';			
+		break;
+		
+		//遍歷節點
+		case 'BrowseNodeLookup':
+			$parameters['BrowseNodeId'] = $arr['browse_node_id'];
+			$parameters['ResponseGroup'] = 'BrowseNodeInfo';
 		break;
 	}	
 	//========== 設定參數 ed ==========
