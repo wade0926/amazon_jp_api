@@ -3,7 +3,7 @@
 function amazon_item_search($arr)
 {
 	$arr['operation'] = 'ItemSearch';	
-	
+		
 	switch($arr['search_index'])
 	{				
 		case 'DVD':
@@ -15,12 +15,16 @@ function amazon_item_search($arr)
 		break;
 		
 		case 'adult_anime_DVD':
-			$arr['search_index'] = 'DVD';
-			//test
-			$arr['browse_node'] = '637392,289705011,927712';
-			
-			//$arr['browse_node'] = '2191254051';					
-		break;				
+			$arr['search_index'] = 'DVD';			
+			$arr['browse_node'] = '2191254051';					
+		break;
+		
+		//test
+		case 'for_test':		
+			$arr['search_index'] = 'Software';
+			$arr['keywords'] = 'アダルト';
+			$arr['browse_node'] = '637392,16245011';
+		break;
 	}	
 		
 	return amazon_product_api($arr);
@@ -30,6 +34,9 @@ function amazon_item_search($arr)
 function amazon_item_lookup($arr)
 {
 	$arr['operation'] = 'ItemLookup';
+	
+	//for test
+	//$arr['operation'];
 		
 	return amazon_product_api($arr);
 }
@@ -76,6 +83,12 @@ function amazon_product_api($arr)
 				$parameters['Title'] = $arr['title'];
 			}
 			
+			//搜尋標題
+			if($arr['keywords'] != '')
+			{
+				$parameters['Keywords'] = $arr['keywords'];
+			}
+			
 			//價格下限
 			if($arr['minimum_price'] != '')
 			{
@@ -93,12 +106,18 @@ function amazon_product_api($arr)
 			{
 				$parameters['Sort'] = $arr['sort'];
 			}
+			
+			//brand
+			if($arr['brand'] != '')
+			{
+				$parameters['Brand'] = $arr['brand'];
+			}								
 		break;
 		
 		//查商品詳細資訊
 		case 'ItemLookup':			
 			$parameters['ItemId'] = $arr['asin'];
-			$parameters['ResponseGroup'] = 'Small,Images,OfferFull,ItemAttributes';			
+			$parameters['ResponseGroup'] = 'Small,Images,OfferFull,ItemAttributes,BrowseNodes';			
 		break;
 		
 		//遍歷節點
@@ -126,7 +145,8 @@ function amazon_product_api($arr)
 	$signature = base64_encode(hash_hmac('sha256',$string_to_sign,$secret_access_key,TRUE));
 	//========== 建立簽名(signature) ed ==========
 		
-	$res_url = 'http://webservices.amazon.co.jp/onca/xml?'.$canonical_string.'&Signature='.str_replace('%7E','~',rawurlencode($signature));	
+	$res_url = 'http://webservices.amazon.co.jp/onca/xml?'.$canonical_string.'&Signature='.str_replace('%7E','~',rawurlencode($signature));
+	echo $res_url;
 	$amazon_xml = simplexml_load_string(@file_get_contents($res_url));
 		
 	//利用json功能先把物件轉成陣列

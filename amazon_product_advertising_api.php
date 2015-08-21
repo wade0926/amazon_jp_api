@@ -20,18 +20,18 @@ if($act != '')
 			//$arr_api['title'] = '学園';
 			//$arr_api['minimum_price'] = '4000';
 			//$arr_api['maximum_price'] = '5000';
-			$arr_api['sort'] = 'price';
+			//$arr_api['sort'] = 'price';
 			$item = amazon_item_search($arr_api);
 		break;
 		
 		case 'item_lookup':
 			$arr_api['asin'] = $asin;		
-			$item = amazon_item_lookup($arr_api);
+			$item = amazon_item_lookup($arr_api);			
 		break;
 		
 		//遍歷節點
 		case 'browse_node_lookup':
-			$item = amazon_browse_node_lookup($browse_node_id);
+			$item = amazon_browse_node_lookup($browse_node_id);			
 		break;		
 	}		
 }
@@ -143,7 +143,9 @@ if($act != '')
 	}
 	//查商品詳細資訊
 	elseif($act == 'item_lookup')
-	{	
+	{
+		echo '<pre>';
+		print_r($item[1]['Item']['BrowseNodes']);exit;	
 		?>
         1. 商品標題：<?php echo $item[1]['Item']['ItemAttributes']['Title'];?>
         <br />
