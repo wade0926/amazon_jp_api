@@ -163,8 +163,18 @@ function get_product_description($asin)
 {
 	$url = 'http://www.amazon.co.jp/gp/product/black-curtain-redirect.html/375-4630128-1534949?ie=UTF8&redirect=true&redirectUrl=%2Fgp%2Fproduct%2F'.$asin;
 	$res = @file_get_contents($url);	
-	preg_match('/<div class=\"productDescriptionWrapper\">(.*?)<div class=\"emptyClear\">/si',urldecode($res),$res_match);
-		
-	return $res_match[1];
+	
+	//取得內容介紹	
+	preg_match('/<div id=\"productDescription\" class=\"a-section a-spacing-small\">(.*?)<\/div>/si',urldecode($res),$res_match);
+	$goods_detail = $res_match[1];
+	
+	//刪掉文字：内容紹介
+	$goods_detail = str_replace('<h3>&#20869;&#23481;&#32057;&#20171;</h3>','',$goods_detail);
+	
+	//刪掉連結：商品の説明をすべて表示する	
+	preg_match('/<a class=\"a-link-normal\" href=\".*?\">.*?商品の説明をすべて表示する<\/a>/si',$goods_detail,$res_match);
+	$goods_detail = str_replace($res_match[0],'',$goods_detail);
+				
+	return $goods_detail;
 }
 ?>
