@@ -22,16 +22,23 @@ if($act != '')
 			//$arr_api['maximum_price'] = '5000';
 			//$arr_api['sort'] = 'price';
 			$item = amazon_item_search($arr_api);
+			//echo '<pre>';
+			//print_r($item);
+			//exit;
 		break;
 		
 		case 'item_lookup':
 			$arr_api['asin'] = $asin;		
-			$item = amazon_item_lookup($arr_api);			
+			$item = amazon_item_lookup($arr_api);
+			echo '<pre>';
+			print_r($item);			
 		break;
 		
 		//遍歷節點
-		case 'browse_node_lookup':
-			$item = amazon_browse_node_lookup($browse_node_id);			
+		case 'browse_node_lookup':			
+			$item = amazon_browse_node_lookup($browse_node_id);
+			echo '<pre>';
+			print_r($item);exit;		
 		break;		
 	}		
 }
@@ -50,8 +57,8 @@ if($act != '')
             請選擇功能：
             <select name="act" id="act" onchange="act_change();">
                 <option value="">請選擇</option>
-                <option value="item_search">查分類樹下商品</option>
-                <option value="item_lookup">取得商品詳細資訊</option>
+                <option value="item_search" <?php if($act == 'item_search') echo 'selected="selected"';?>>查分類樹下商品</option>
+                <option value="item_lookup" <?php if($act == 'item_lookup') echo 'selected="selected"';?>>取得商品詳細資訊</option>
             </select>
         </span>
         
@@ -59,9 +66,9 @@ if($act != '')
             選擇分類樹：
             <select name="search_index" id="search_index">
                 <option value="">請選擇</option>
-                <option value="DVD">DVD</option>
-                <option value="Books">Books</option>
-                <option value="adult_anime_DVD">成人動漫DVD</option>
+                <option value="DVD" <?php if($search_index == 'DVD') echo 'selected="selected"';?>>DVD</option>
+                <option value="Books" <?php if($search_index == 'Books') echo 'selected="selected"';?>>Books</option>
+                <option value="adult_anime_DVD" <?php if($search_index == 'adult_anime_DVD') echo 'selected="selected"';?>>成人動漫DVD</option>
             </select>
         </span>
         
@@ -72,7 +79,7 @@ if($act != '')
                 for($i = 1;$i <= 10;$i++)
                 {
                     ?>
-                    <option value="<?php echo $i;?>"><?php echo $i;?></option>
+                    <option value="<?php echo $i;?>" <?php if($i == $page) echo 'selected="selected"';?>><?php echo $i;?></option>
                     <?php
                 }
                 ?>            
@@ -143,9 +150,7 @@ if($act != '')
 	}
 	//查商品詳細資訊
 	elseif($act == 'item_lookup')
-	{
-		echo '<pre>';
-		print_r($item[1]['Item']['BrowseNodes']);exit;	
+	{		
 		?>
         1. 商品標題：<?php echo $item[1]['Item']['ItemAttributes']['Title'];?>
         <br />
@@ -209,7 +214,7 @@ if($act != '')
             ．內容介紹：
             <div style="margin-left:15px;color:#F30">
 				<?php
-                //用正規表示式截出商品介紹
+                //用正規表示式截出商品介紹				
                 echo get_product_description($item[1]['Item']['ASIN']);
                 ?>
             </div>
@@ -226,8 +231,8 @@ if($act != '')
 		<?php
 	}
 	elseif($act == 'browse_node_lookup')
-	{
-		?>
+	{		
+		?>        
         <pre><?php print_r($item[1]['BrowseNode']);?></pre>
         <?php
 	}
