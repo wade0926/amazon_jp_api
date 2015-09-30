@@ -30,7 +30,21 @@ if($act != '')
 		case 'item_lookup':
 			$arr_api['asin'] = $asin;		
 			$item = amazon_item_lookup($arr_api);
-			echo '<pre>';
+			
+			//========== 判斷多圖片 op ========== 
+//			if($item[1]['Item']['ImageSets']['ImageSet'][0] != '')
+//			{
+//				foreach($item[1]['Item']['ImageSets']['ImageSet'] as $row_pic)
+//				{
+//					echo '<img src='.$row_pic['LargeImage']['URL'].'>';
+//					echo '<br />';
+//				}        
+//			}
+			//========== 判斷多圖片 ed ==========
+			
+			exit;
+					
+			echo '<pre>';			
 			print_r($item);			
 		break;
 		

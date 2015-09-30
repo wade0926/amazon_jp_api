@@ -14,7 +14,8 @@ function amazon_item_search($arr)
 		break;
 		
 		case 'Books':
-			$arr['browse_node'] = '465392';
+			$arr['browse_node'] = '10667121';
+			//$arr['browse_node'] = '465392';
 		break;
 		
 		case 'adult_anime_DVD':
